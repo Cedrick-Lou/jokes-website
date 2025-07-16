@@ -2,18 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>每日一笑</title>
+  <title>Just have fun</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="joke-container"></div>
+  <!-- 添加核心显示容器 -->
+  <div id="joke-container">
+    <p id="joke-text">正在加载...</p> <!-- 新增文本容器 -->
+  </div>
   
   <script src="jokes.js"></script>
   <script src="script.js"></script>
   
-  <!-- 页脚 -->
   <div id="footer">
-    <p>点击屏幕切换笑话 | 已收录 <span id="counter">0</span> 个笑话</p>
+    <p>点击屏幕切换 | 已收录 <span id="counter">0</span> 个段子</p>
   </div>
 </body>
 </html>

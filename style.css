@@ -13,22 +13,32 @@ body {
   transition: background-color 0.5s;
 }
 
+/* 笑话容器 */
 #joke-container {
-  /* 保留原有样式 */
+  /* 文本样式 */
   font-size: 2.2rem;
   text-align: center;
   padding: 2rem;
   max-width: 80%;
   
-  /* 新增多行支持 */
+  /* 多行支持 */
   white-space: normal;      /* 允许换行 */
   word-wrap: break-word;    /* 长单词强制换行 */
   line-height: 1.6;         /* 增加行间距提高可读性 */
   
-  /* 保留原有动画效果 */
-  opacity: 0;
-  transform: translateY(20px);
+  /* 初始状态 */
+  opacity: 1; /* 修复初始不可见问题 */
+  transform: translateY(0); /* 修复初始位移问题 */
+  
+  /* 动画过渡 */
   transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* 文本容器（新增） */
+#joke-text {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 /* 页脚样式 */
@@ -61,4 +71,18 @@ body {
     /* 减少两侧边距 */
     padding: 1rem 0.5rem;
   }
+  
+  #footer {
+    font-size: 0.85rem;
+  }
+}
+
+/* 加载动画（新增） */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loading {
+  animation: fadeIn 1s ease-in-out infinite alternate;
 }

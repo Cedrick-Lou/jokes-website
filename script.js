@@ -9,19 +9,33 @@ function showRandomJoke() {
   
   // 0.5秒后显示新笑话
   setTimeout(() => {
-    container.textContent = jokes[randomIndex];
-    container.style.whiteSpace = 'normal';
+    container.innerHTML = jokes[randomIndex];
     container.style.opacity = 1;
     container.style.transform = 'translateY(0)';
     
     // 添加浮动效果
     container.classList.add('float');
+    
+    // 更新计数器（新增）
+    updateJokeCounter();
   }, 500);
 }
 
-// 页面加载时显示第一个笑话
+// 更新笑话计数器（新增函数）
+function updateJokeCounter() {
+  const counterElement = document.getElementById('counter');
+  if (counterElement) {
+    counterElement.textContent = jokes.length;
+  }
+}
+
+// 页面加载时初始化
 document.addEventListener('DOMContentLoaded', () => {
+  // 显示第一个笑话
   showRandomJoke();
+  
+  // 初始化计数器（新增）
+  updateJokeCounter();
   
   // 设置背景色渐变动画
   let hue = 0;
