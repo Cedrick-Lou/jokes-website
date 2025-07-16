@@ -10,6 +10,7 @@ function showRandomJoke() {
   // 0.5秒后显示新笑话
   setTimeout(() => {
     container.textContent = jokes[randomIndex];
+    container.style.whiteSpace = 'normal';
     container.style.opacity = 1;
     container.style.transform = 'translateY(0)';
     

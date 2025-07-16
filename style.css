@@ -13,12 +13,19 @@ body {
   transition: background-color 0.5s;
 }
 
-/* 笑话容器 */
 #joke-container {
+  /* 保留原有样式 */
   font-size: 2.2rem;
   text-align: center;
   padding: 2rem;
   max-width: 80%;
+  
+  /* 新增多行支持 */
+  white-space: normal;      /* 允许换行 */
+  word-wrap: break-word;    /* 长单词强制换行 */
+  line-height: 1.6;         /* 增加行间距提高可读性 */
+  
+  /* 保留原有动画效果 */
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -48,11 +55,10 @@ body {
 /* 移动端适配 */
 @media (max-width: 768px) {
   #joke-container {
-    font-size: 1.6rem;
-    padding: 1rem;
-  }
-  
-  #footer {
-    font-size: 0.8rem;
+    /* 移动端减小字号增加可读性 */
+    font-size: 1.5rem;
+    line-height: 1.8;
+    /* 减少两侧边距 */
+    padding: 1rem 0.5rem;
   }
 }
