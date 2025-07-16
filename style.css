@@ -1,0 +1,58 @@
+/* 基础样式 - 黑底白字 */
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.5s;
+}
+
+/* 笑话容器 */
+#joke-container {
+  font-size: 2.2rem;
+  text-align: center;
+  padding: 2rem;
+  max-width: 80%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* 页脚样式 */
+#footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* 动画效果 */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  #joke-container {
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+  
+  #footer {
+    font-size: 0.8rem;
+  }
+}
