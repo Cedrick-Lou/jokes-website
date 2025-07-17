@@ -2,8 +2,53 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Just have fun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUST HAVE FUN</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* 新增的页脚链接样式 */
+    #footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    #footer a {
+      color: #6b8cbd;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    #footer a:hover {
+      background: rgba(107, 140, 189, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+      #footer {
+        font-size: 1.1rem;
+        gap: 10px;
+      }
+      
+      #footer a {
+        padding: 4px 8px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #footer {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- 添加核心显示容器 -->
@@ -16,6 +61,7 @@
   
   <div id="footer">
     <p>点击屏幕切换 | 已收录 <span id="counter">0</span> 个段子</p>
+    <a href="submit.html">我要投稿</a>
   </div>
 </body>
 </html>

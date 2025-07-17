@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUST HAVE FUN - 投稿系统</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbd;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: var(--light-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            display: flex;
+            padding: 30px;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+        }
+        
+        .feedback-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--light-color);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.3);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #4a6fa5, #6b8cbd);
+            margin-right: 10px;
+        }
+        
+        .btn-clear {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .btn-clear:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-panel {
+            margin-top: 30px;
+        }
+        
+        .submission-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .submission-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .submission-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .submission-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        
+        .submission-item p {
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+        
+        .submission-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .status-approved {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .status-rejected {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .approve-btn {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.5);
+        }
+        
+        .reject-btn {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+        }
+        
+        .delete-btn {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6c757d;
+            border: 1px solid rgba(108, 117, 125, 0.5);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .approve-btn:hover {
+            background: rgba(40, 167, 69, 0.3);
+        }
+        
+        .reject-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+        }
+        
+        .delete-btn:hover {
+            background: rgba(108, 117, 125, 0.3);
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid #28a745;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #dc3545;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            width: 100%;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JUST HAVE FUN</h1>
+            <p class="subtitle">征集！征集！征集！快交出你的R&B给天秤座10.13出生姓lou的帅哥！</p>
+        </header>
+        
+        <div class="content">
+            <section class="feedback-section">
+                <h2>投稿段子</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="name">昵称（可选）</label>
+                        <input type="text" id="name" placeholder="可以匿名投稿">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="joke-content">段子内容 *</label>
+                        <textarea id="joke-content" placeholder="请在这里输入...意见也可以，但你敢有什么意见？？？" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">分类</label>
+                        <select id="category">
+                            <option value="搞笑">搞笑</option>
+                            <option value="谐音梗">谐音梗</option>
+                            <option value="冷知识">冷知识</option>
+                            <option value="神回复">神回复</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="btn btn-submit">提交段子</button>
+                        <button type="reset" class="btn btn-clear">清空内容</button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="admin-section">
+                <h2>投稿管理</h2>
+                
+                <div class="admin-panel">
+                    <div class="filter-group">
+                        <label>筛选状态：</label>
+                        <select id="filter-status">
+                            <option value="all">全部</option>
+                            <option value="pending">待审核</option>
+                            <option value="approved">已通过</option>
+                            <option value="rejected">已拒绝</option>
+                        </select>
+                    </div>
+                    
+                    <div class="submission-list">
+                        <div class="empty-state">
+                            <i>📭</i>
+                            <p>暂无投稿记录</p>
+                        </div>
+                        
+                        <!-- 投稿示例（实际内容由JS生成） -->
+                        <div class="submission-item" style="display: none;">
+                            <h3>程序员笑话</h3>
+                            <p>为什么程序员分不清万圣节和圣诞节？因为 Oct 31 == Dec 25！</p>
+                            <div class="submission-meta">
+                                <span>投稿人: 匿名</span>
+                                <span>分类: 搞笑</span>
+                                <span class="status-badge status-pending">待审核</span>
+                            </div>
+                            <div class="actions">
+                                <button class="action-btn approve-btn">通过</button>
+                                <button class="action-btn reject-btn">拒绝</button>
+                                <button class="action-btn delete-btn">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2025 Cedrick LOU | 让快乐传递下去</p>
+        </footer>
+    </div>
+    
+    <div class="toast">操作成功！</div>
+    
+    <script>
+        // 模拟数据存储（实际应用中应使用数据库）
+        let submissions = [];
+        
+        // DOM元素
+        const feedbackForm = document.getElementById('feedback-form');
+        const submissionList = document.querySelector('.submission-list');
+        const toast = document.querySelector('.toast');
+        const filterStatus = document.getElementById('filter-status');
+        const emptyState = document.querySelector('.empty-state');
+        
+        // 显示通知
+        function showToast(message, isSuccess = true) {
+            toast.textContent = message;
+            toast.className = `toast ${isSuccess ? 'success' : 'error'}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 提交新段子
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value || '匿名';
+            const content = document.getElementById('joke-content').value;
+            const category = document.getElementById('category').value;
+            
+            if (!content) {
+                showToast('请填写段子内容！', false);
+                return;
+            }
+            
+            const newSubmission = {
+                id: Date.now(),
+                name: name,
+                content: content,
+                category: category,
+                status: 'pending',
+                date: new Date().toLocaleString()
+            };
+            
+            // 添加到模拟数据库
+            submissions.push(newSubmission);
+            
+            // 更新界面
+            renderSubmissions();
+            
+            // 显示成功消息
+            showToast('段子投稿成功！等待审核', true);
+            
+            // 重置表单
+            feedbackForm.reset();
+        });
+        
+        // 渲染投稿列表
+        function renderSubmissions() {
+            const statusFilter = filterStatus.value;
+            const filteredSubmissions = submissions.filter(sub => {
+                if (statusFilter === 'all') return true;
+                return sub.status === statusFilter;
+            });
+            
+            // 如果没有投稿，显示空状态
+            if (filteredSubmissions.length === 0) {
+                emptyState.style.display = 'block';
+                submissionList.innerHTML = '';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            // 生成投稿列表HTML
+            let html = '';
+            filteredSubmissions.forEach(sub => {
+                html += `
+                <div class="submission-item" data-id="${sub.id}">
+                    <h3>${sub.category}</h3>
+                    <p>${sub.content}</p>
+                    <div class="submission-meta">
+                        <span>投稿人: ${sub.name}</span>
+                        <span>分类: ${sub.category}</span>
+                        <span class="status-badge status-${sub.status}">
+                            ${sub.status === 'pending' ? '待审核' : 
+                              sub.status === 'approved' ? '已通过' : '已拒绝'}
+                        </span>
+                    </div>
+                    <div class="actions">
+                        <button class="action-btn approve-btn">通过</button>
+                        <button class="action-btn reject-btn">拒绝</button>
+                        <button class="action-btn delete-btn">删除</button>
+                    </div>
+                </div>
+                `;
+            });
+            
+            submissionList.innerHTML = html;
+            
+            // 添加事件监听器
+            document.querySelectorAll('.approve-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const item = this.closest('.submission-item');
+                    const id = parseInt(item.dataset.id);
+                    updateSubmissionStatus(id, 'approved');
+                });
+            });
+            
+            document.querySelectorAll('.reject-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const item = this.closest('.submission-item');
+                    const id = parseInt(item.dataset.id);
+                    updateSubmissionStatus(id, 'rejected');
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const item = this.closest('.submission-item');
+                    const id = parseInt(item.dataset.id);
+                    deleteSubmission(id);
+                });
+            });
+        }
+        
+        // 更新投稿状态
+        function updateSubmissionStatus(id, status) {
+            const index = submissions.findIndex(sub => sub.id === id);
+            if (index !== -1) {
+                submissions[index].status = status;
+                renderSubmissions();
+                showToast(`投稿已${status === 'approved' ? '通过' : '拒绝'}`, true);
+            }
+        }
+        
+        // 删除投稿
+        function deleteSubmission(id) {
+            if (confirm('确定要删除这个投稿吗？')) {
+                submissions = submissions.filter(sub => sub.id !== id);
+                renderSubmissions();
+                showToast('投稿已删除', true);
+            }
+        }
+        
+        // 初始化页面
+        function init() {
+            // 添加一些示例数据
+            submissions = [
+                {
+                    id: 1,
+                    name: '匿名',
+                    content: '为什么程序员分不清万圣节和圣诞节？因为 Oct 31 == Dec 25！',
+                    category: '搞笑',
+                    status: 'pending',
+                    date: '2023-06-15 10:30'
+                },
+                {
+                    id: 2,
+                    name: '段子王',
+                    content: '小明去澡堂搓澡回来以后就去世了为啥？因为有些人一旦搓过就不在～',
+                    category: '谐音梗',
+                    status: 'approved',
+                    date: '2023-06-14 14:20'
+                },
+                {
+                    id: 3,
+                    name: '笑话达人',
+                    content: '为什么商鞅处决画面放不出来？因为无码',
+                    category: '神回复',
+                    status: 'rejected',
+                    date: '2023-06-13 09:15'
+                }
+            ];
+            
+            // 初始渲染
+            renderSubmissions();
+            
+            // 添加筛选事件
+            filterStatus.addEventListener('change', renderSubmissions);
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
